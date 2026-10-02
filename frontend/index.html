@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>财务软件培训中心 · 报销 / 预算 / 月结模拟</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🏦 财务软件培训中心 <span class="badge">模拟环境 · 非真实资金系统 · 不构成合规结论</span></div>
+  <div id="session" class="session"></div>
+</header>
+
+<main id="app">
+  <!-- 登录 -->
+  <section id="view-login" class="card">
+    <h2>登录（演示账号）</h2>
+    <p class="muted">学生接口与教师接口在服务端隔离：学生任何响应都不含教师答案（expected path），浏览器隐藏不算隔离。</p>
+    <div class="login-row">
+      <button data-user="student1">以「李同学」（学生）登录</button>
+      <button data-user="student2">以「赵同学」（学生）登录</button>
+      <button data-user="teacher1" class="teacher-btn">以「王老师」（教师）登录</button>
+    </div>
+  </section>
+
+  <!-- 学生视图 -->
+  <section id="view-student" hidden>
+    <div class="layout">
+      <aside class="card sidebar">
+        <h3>课程 / 版本</h3>
+        <div id="cv-list" class="cv-list"></div>
+        <h3>文档页（阅读）</h3>
+        <div id="page-list"></div>
+        <h3>训练节点</h3>
+        <ol id="node-list" class="node-list"></ol>
+        <div class="legend">
+          <div><span class="dot reading"></span> 阅读完成</div>
+          <div><span class="dot passed"></span> 练习通过</div>
+          <div><span class="dot redo"></span> 需重做</div>
+          <div><span class="dot pending"></span> 未开始/进行中</div>
+        </div>
+      </aside>
+
+      <div class="content">
+        <div id="doc-panel" class="card" hidden>
+          <button class="back" id="doc-back">← 返回练习</button>
+          <h2 id="doc-title"></h2>
+          <div id="doc-body" class="doc-body"></div>
+          <button id="mark-read" class="primary">标记为阅读完成</button>
+        </div>
+
+        <div id="practice-panel" class="card">
+          <div class="practice-head">
+            <div>
+              <h2>练习账套（虚构数据）</h2>
+              <div class="muted">账套版本：<b id="ledger-version">-</b> · 分支：<b id="branch-name">-</b>
+                · 设备：<input id="device-id" size="8" value="devA"/></div>
+            </div>
+            <div class="head-actions">
+              <button id="btn-refresh">刷新恢复云端状态</button>
+              <button id="btn-upgrade">课程升级…</button>
+            </div>
+          </div>
+
+          <div id="docs" class="docs"></div>
+
+          <h3>状态转移日志（评分依据）</h3>
+          <table class="grid">
+            <thead><tr><th>#</th><th>单据</th><th>动作</th><th>from</th><th>to</th><th>设备</th><th>状态</th><th></th></tr></thead>
+            <tbody id="trans-log"></tbody>
+          </table>
+
+          <h3>节点进度</h3>
+          <div id="progress-list"></div>
+
+          <h3>离线队列与双设备</h3>
+          <div class="offline-bar">
+            <label><input type="checkbox" id="offline-mode"/> 离线模式（动作先排队，不请求服务器）</label>
+            <button id="btn-sync">补交离线动作 (<span id="queue-count">0</span>)</button>
+            <button id="btn-conflict" class="warn">模拟两设备并发冲突</button>
+          </div>
+          <div id="msg" class="msg"></div>
+        </div>
+
+        <div id="upgrade-panel" class="card" hidden>
+          <button class="back" id="upgrade-back">← 返回</button>
+          <h2>课程升级：练习数据迁移</h2>
+          <p class="muted">规则升级后旧练习数据与旧评分可能不兼容。比较两种方式：<b>迁移已完成节点</b>（按状态转移继承，保留原成绩）与<b>重开练习分支</b>（旧分支冻结、原成绩保留，新分支重练）。</p>
+          <div id="upgrade-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 教师视图 -->
+  <section id="view-teacher" class="card" hidden>
+    <h2>教师工作台</h2>
+    <p class="muted">教师接口返回完整评分规则（含 expected path 答案）；学生 token 访问这些接口一律 403。</p>
+    <div class="teacher-actions">
+      <select id="teacher-cv"></select>
+      <button id="btn-new-version" class="primary">基于所选版本发布规则新版（复制规则）</button>
+    </div>
+    <h3>评分规则（含答案）</h3>
+    <table class="grid"><thead><tr><th>节点</th><th>类型</th><th>期望状态转移路径</th><th>前置</th><th>截图</th></tr></thead>
+      <tbody id="teacher-rules"></tbody></table>
+    <h3>快速验收动作</h3>
+    <div class="teacher-actions">
+      <label>学生报名ID <input id="teach-enr" size="6" placeholder="自动填"/></label>
+      <button id="btn-teach-progress">查看学生进度明细</button>
+    </div>
+    <pre id="teacher-output" class="output"></pre>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

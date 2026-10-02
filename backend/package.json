@@ -1,0 +1,16 @@
+{
+  "name": "finance-training-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "财务软件培训中心：报销/预算/月结模拟、状态转移评分、事件溯源回滚、课程版本迁移",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test ../test/0*.test.js"
+  },
+  "dependencies": {
+    "embedded-postgres": "^18.4.0-beta.17",
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  }
+}

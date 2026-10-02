@@ -1,0 +1,31 @@
+# 生产形态：外部真实 PostgreSQL（开发环境可用 `npm start` 自动拉起 embedded-postgres）
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: training
+      POSTGRES_PASSWORD: training
+      POSTGRES_DB: training
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U training"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgres://training:training@db:5432/training
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  pgdata:
