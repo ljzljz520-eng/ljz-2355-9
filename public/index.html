@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>财务软件培训中心（模拟）</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🏦 财务软件培训中心 <span class="tag">模拟环境 · 不接真实资金系统 · 不构成财务合规结论</span></div>
+  <div id="userbox" class="userbox"></div>
+</header>
+
+<main id="app">
+  <section id="login-view" class="card">
+    <h1>登录</h1>
+    <p class="muted">演示环境：任意用户名登录；用户名以 <code>teacher</code> 开头即教师角色（如 teacher1）。内置学生 <code>alice</code>、<code>bob</code>。</p>
+    <form id="login-form" class="row">
+      <input name="username" placeholder="用户名，如 alice / teacher1" required />
+      <button>登录</button>
+    </form>
+  </section>
+
+  <section id="main-view" hidden>
+    <div class="layout">
+      <aside class="sidebar card">
+        <h2 id="course-title">课程</h2>
+        <div id="version-bar" class="version-bar"></div>
+        <ol id="node-list" class="node-list"></ol>
+        <div class="muted small" id="offline-indicator"></div>
+      </aside>
+      <section class="content card" id="content"></section>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

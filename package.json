@@ -1,0 +1,16 @@
+{
+  "name": "finance-training-center",
+  "version": "1.0.0",
+  "description": "财务软件培训中心：报销/预算/月结模拟练习（虚构账套、事件溯源、状态转移评分）",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "start:pg": "DATABASE_URL=postgres://postgres@localhost:5433/finance_training?host=/tmp node src/server.js",
+    "test": "node --test test/",
+    "test:pg": "DATABASE_URL=postgres://postgres@localhost:5433/finance_training?host=/tmp ADAPTER=pg node --test test/"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "pg": "^8.13.0"
+  }
+}
